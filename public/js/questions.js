@@ -38,38 +38,42 @@ function shuffle(a) {
 
 function showQuestion(results) {
     var template = "";
-    var a = results.data[0];
-    var correct = a.answer;
+    if(results.data[0] !== undefined) {
+	var a = results.data[0];
+	var correct = a.answer;
+	var questions = [];
 
-    var questions = [];
-    questions.push(a.answer, a.incorrect_1, a.incorrect_2, a.incorrect_3);
-    questions = shuffle(questions);
-    if(a) {
+	questions.push(a.answer, a.incorrect_1, a.incorrect_2, a.incorrect_3);
+	questions = shuffle(questions);
 	for(i = 0; i < questions.length; i++) {
-	template += '<div class="q btn-lg"><dl>' +
-	    '<dt class="answer">' + questions[i] + '</dt></br></div>';
+	    template += '<div class="q btn-lg"><dl>' +
+		'<dt class="answer">' + questions[i] + '</dt></br></div>';
 	}
+	$('#results-template').append(template);	
+	$('#results-template').parent().removeClass("hidden").fadeIn(500);
+	    $('dt').each((index, record)=>{
+		console.log($(record).text() + ' vs ' + correct);
+		if($(record).text() == correct)
+		    $(record).parent().data('foo', a.id);
+	    });
+	    $(".q, .btn-lg").on("click", (event)=>{
+		checkAnswer(event, a.id);
+	    });
+    } else {
+	template += "<div><h1>You've answered all available questions!</h1></div>";
+	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
     }
-    
-    $('#results-template').parent().removeClass("hidden").fadeIn(500);
-    $('#results-template').append(template);
-    $('dt').each((index, record)=>{
-	console.log($(record).text() + ' vs ' + correct);
-	if($(record).text() == correct)
-	$(record).parent().data('foo', a.id);
-    });
-    $(".q, .btn-lg").on("click", (event)=>{
-	checkAnswer(event, a.id);
-    });
 }
 
 function checkAnswer(event, id) {
     var corr = ($(event.target).parent().data('foo') > 0 ? 1 : 0);
+    $(".q, .btn-lg").off();
     showCorrect(corr);
    // var q = { 'id' : id,
 //	      'correct' : corr
 //	    }
-    daURL = "http://localhost:3000/checkanswer?id=" + id + "&correct=" + corr;
+    daURL = "http://localhost:3000/submitanswer?id=" + id + "&correct=" + corr;
+    console.log(daURL);
     $.ajax({
 	type: "GET",
 	url: daURL,
@@ -85,5 +89,5 @@ function showCorrect(corr) {
     $("#results-template").text("");
     var display = (corr ? "CORRECT!! Nice Job" : "INCORRECT! Better luck next time!");
     var template = '<div><h1>' + display + '</h1></div';
-    $('#results-template').append(template).fadeIn(500);
+    $('#results-template').append(template).fadeIn(500).delay(2000);
 }

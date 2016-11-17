@@ -78,7 +78,7 @@ app.get('/getquestions',function(req,res){
 
     conn.query({
 	sql: 'SELECT * FROM `problem` WHERE `id` = (SELECT MIN(`id`) FROM ' +
-	    '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress`))',
+	    '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=3))',
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
@@ -100,16 +100,16 @@ app.get('/getquestions',function(req,res){
 
 app.get('/submitanswer', (req, res)=> {
     var data = processData(req);
-    var id =  data.qParams.id;
-    var correct = data.qParams.correct;
-
-
+    var id =  data.qParams[0].value;
+    var correct = data.qParams[1].value;
+    console.log(data);
+    var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (3,' + id + ', ' + correct + ', NOW())' +
+	    ' ON DUPLICATE KEY UPDATE `passed`='+ correct + ', `attempt_date`=NOW()';
+    console.log(string);
     var conn = getConn();
- 
+  
     conn.query({
-	sql: 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (1,' + id + ', "' + correct + '", NOW())' +
-	    ' ON DUPLICATE KEY UPDATE `passed`="'+correct+
-	    '", `attempt_date`=NOW()',
+	sql: string,
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
@@ -119,7 +119,7 @@ app.get('/submitanswer', (req, res)=> {
 	}
 	else {
 	    console.log("Connected to DB");
-
+	    res.send('{}');
 	}
 	
     });
