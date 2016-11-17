@@ -1,0 +1,12 @@
+{
+  "name": "mySQLConn",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Tanner England",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^2.0.1",
+    "mysql": "^2.8.0"
+  }
+}

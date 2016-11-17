@@ -1,0 +1,200 @@
+/*.intro-header {
+	background-image: url('../images/BreweryDB.png');
+	background-position: no-repeat center center;
+	background-attachment: scroll;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	min-height: 381px;
+	text-align: center;
+
+}
+*/
+
+img {
+	width: 100%;
+}
+
+.intro-header {
+	top: 0;
+	margin-bottom: 30px;
+	/*background-image: url('../images/carousel-background.jpg');*/
+	background-color: #D3D3D3;
+	background-position: no-repeat center center;
+	background-attachment: scroll;
+	text-align: center;
+	min-height: 300px;
+	padding-top: 20px;
+	padding-bottom: 50px;
+
+}
+
+#main-title * {
+	padding-top: 5px;
+	font-style: impact;
+	font-weight: 800;
+	font-size: 70px;
+	text-align: left;
+    text-shadow: 0px -1px 0px rgba(0,0,0,.5);
+}
+
+hr.small {
+    max-width: 100px;
+    margin: 15px auto;
+    border-width: 4px;
+    border-color: black;
+}
+
+hr {
+	border-width: 2px;
+}
+
+.intro-header .row {
+	padding-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+	.intro-header h1 {
+		font-size: 50px;
+	}
+}
+
+.intro-header .container {
+	margin-top: 100px;
+}
+
+
+.page-heading h1 {
+	font-size: 50px;
+}
+
+.subheading {
+	font-size: 16px;
+}
+
+.navbar {
+	opacity: .95;
+	background-color: white;
+}
+
+#menu-section *{
+	color: black;
+	font-weight: 500;
+	
+}
+
+.navbar-brand {
+	font-size: 20px;
+	font-weight: 800;
+}
+
+.jumbotron {
+	background-color: transparent;
+}
+
+#startButton {
+	text-align: center;
+	padding-top: 25%;
+	padding-bottom: 20px;
+}
+
+.startButton {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+
+.btn-default:hover,
+.btn-default:active,
+.btn-default:visited,
+.btn-default:focus {
+    background-color: black;
+	color: white;
+}
+
+#signup {
+	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+	float: left;
+	width: 100%;
+	height: auto;
+}
+
+@media (min-width: 500px) {
+	#signup {
+		height: 500px;
+		width: 480px;
+	}
+}
+
+#belowPic {
+	
+	clear: left;
+}
+
+.center {
+	text-align: center;
+	
+}
+
+.prettyBird {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+	margin-top: 10px;
+    margin-bottom: 10px;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: firebrick;
+    background-color: #ecf0f1;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+	text-align: left; 
+	white-space: pre-line;
+}
+
+.results-template {
+	text-align: center;
+}
+
+.search {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+}
+
+.results {
+	font-style: impact;
+	display: inline-block;
+	border: 1px solid #cccccc;
+	background-color: #F8F8F8;
+	border-radius: 4px;
+	clear: both;
+	word-break: break-all;
+    word-wrap: break-word;
+	height: 260px;
+	width: 45%;
+	margin: 5px 5px 5px 5px;
+	vertical-align: top;
+}
+
+@media (min-width: 500px) {
+	.results {
+		width: 30%;
+	}
+	
+}
+
+.icon {
+	width: 100px;
+	height: auto;
+}
+
+dl {
+	vertical-align: center;
+}
+
+html { 
+	overflow-y:scroll;
+}
