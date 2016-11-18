@@ -63,7 +63,7 @@ function showQuestion(results) {
 	    $(".span2, .q").on("click", (event)=>{
 		checkAnswer(event, a.id);
 	    });
-	setTimeout(function() {responsiveVoice.speak(correct);}, 2000);
+	setTimeout(function() {responsiveVoice.speak(correct);}, 1800);
     } else {
 	template += "<div><h1>You've answered all available questions!</h1></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
@@ -83,7 +83,7 @@ function checkAnswer(event, id) {
 	type: "GET",
 	url: daURL,
     }).done((data)=>{
-	search();
+	setTimeout(function() {search();}, 1500);
     });
 
 }
@@ -94,5 +94,5 @@ function showCorrect(corr) {
     $("#results-template").text("");
     var display = (corr ? "CORRECT!! Nice Job" : "INCORRECT! Better luck next time!");
     var template = '<div><h1>' + display + '</h1></div';
-    $('#results-template').append(template).fadeIn(500).delay(2000);
+    $('#results-template').append(template).fadeIn(500);
 }
