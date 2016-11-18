@@ -1,3 +1,5 @@
+var url = 'http://52.40.59.238:3000'
+
 $(()=>{
    // bindButtons();
    search();
@@ -6,7 +8,7 @@ $(()=>{
 });
 
 function search() {
-    daURL = "http://web.engr.oregonstate.edu/~englandt:5555/getquestions";
+    var daURL = url + "/getquestions";
 //	$("#results-template").fadeOut(1000);
 		$("#results-template").html("");
 		$("#results-template").text("");
@@ -47,8 +49,8 @@ function showQuestion(results) {
 	questions.push(a.answer, a.incorrect_1, a.incorrect_2, a.incorrect_3);
 	questions = shuffle(questions);
 	for(i = 0; i < questions.length; i++) {
-	    template += '<div class="q btn-lg"><dl>' +
-		'<dt class="answer">' + questions[i] + '</dt></br></div>';
+	    template += '<div class="span2 q"><dl>' +
+		'<dt class="answer">' + questions[i] + '</dt></dl></br></div>';
 	}
 	$('#results-template').append(template);	
 	$('#results-template').parent().removeClass("hidden").fadeIn(500);
@@ -58,10 +60,10 @@ function showQuestion(results) {
 		   // $(record).attr('id', 'audio');
 		    $(record).parent().data('foo', a.id);
 	    });
-	    $(".q, .btn-lg").on("click", (event)=>{
+	    $(".span2, .q").on("click", (event)=>{
 		checkAnswer(event, a.id);
 	    });
-	responsiveVoice.speak(correct);
+	setTimeout(function() {responsiveVoice.speak(correct);}, 2000);
     } else {
 	template += "<div><h1>You've answered all available questions!</h1></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
@@ -70,12 +72,12 @@ function showQuestion(results) {
 
 function checkAnswer(event, id) {
     var corr = ($(event.target).parent().data('foo') > 0 ? 1 : 0);
-    $(".q, .btn-lg").off();
+    $(".span2, .q").off();
     showCorrect(corr);
    // var q = { 'id' : id,
 //	      'correct' : corr
 //	    }
-    daURL = "http://web.engr.oregonstate.edu/~englandt:5555/submitanswer?id=" + id + "&correct=" + corr;
+    var daURL = url + "/submitanswer?id=" + id + "&correct=" + corr;
     console.log(daURL);
     $.ajax({
 	type: "GET",
