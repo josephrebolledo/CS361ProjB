@@ -25,7 +25,7 @@ CREATE TABLE `user` (
   `DOB` date NOT NULL,
   `joinDate` date NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `phone` int(16) DEFAULT NULL,
+  `phone` varchar(16) DEFAULT NULL,
   `user_role_id` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`)
@@ -92,7 +92,8 @@ CREATE TABLE `group_problems` (
 
 
 INSERT INTO problem (`answer`, `incorrect_1`, `incorrect_2`, `incorrect_3`)
-VALUES ('and', 'hello', 'Oregon', 'state'), ('computer', 'science', 'file', 'key'), ('phone', 'default', 'email', 'cell'), ('teacher', 'student', 'can', 'go');
+VALUES ('and', 'hello', 'Oregon', 'state'), ('computer', 'science', 'file', 'key'), ('phone', 'default', 'email', 'cell'), ('teacher', 'student', 'can', 'go'),
+('instance', 'prepend', 'sudo', 'random'), ('Amazon', 'forest', 'word', 'assocations'), ('need', 'more', 'problems', 'here');
 
 INSERT INTO `user_role` (`user_role_desc`) VALUES
 ('student'), ('teacher');

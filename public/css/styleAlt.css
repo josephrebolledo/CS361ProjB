@@ -198,3 +198,12 @@ dl {
 html { 
 	overflow-y:scroll;
 }
+
+
+
+.q {
+	width: 45%;
+	border-width: 4px;
+    border-color: black;
+	border-radius: 6px;
+}

@@ -43,8 +43,12 @@ function getConn() {
     var mysql = require('mysql');
     var hostname = 'localhost';
     var username = 'root';
-    var pw = 'password!';
+    var pw = '***';
     var db = 'cs361';
+	//var hostname = 'oniddb.cws.oregonstate.edu';
+    //var username = 'englandt-db';
+    //var pw = '***';
+    //var db = 'englandt-db';
     var conn = mysql.createConnection({
 	host : hostname,
 	user : username,
@@ -78,7 +82,7 @@ app.get('/getquestions',function(req,res){
 
     conn.query({
 	sql: 'SELECT * FROM `problem` WHERE `id` = (SELECT MIN(`id`) FROM ' +
-	    '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=3))',
+	    '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1))',
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
@@ -103,7 +107,7 @@ app.get('/submitanswer', (req, res)=> {
     var id =  data.qParams[0].value;
     var correct = data.qParams[1].value;
     console.log(data);
-    var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (3,' + id + ', ' + correct + ', NOW())' +
+    var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (1,' + id + ', ' + correct + ', NOW())' +
 	    ' ON DUPLICATE KEY UPDATE `passed`='+ correct + ', `attempt_date`=NOW()';
     console.log(string);
     var conn = getConn();
@@ -129,8 +133,23 @@ app.get('/submitanswer', (req, res)=> {
     
 });
 
-app.get('/questions', (req, res)=> {
+app.get('/problems', (req, res)=> {
   res.render('questions');
+});
+
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://52.40.59.238');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', false);
+    // Pass to next layer of middleware
+    next();
 });
 
 app.use(function(req,res){
@@ -148,3 +167,7 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+
+exports.app = app;
+exports.getConn = getConn;
+exports.processData = processData;

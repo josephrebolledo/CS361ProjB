@@ -1,11 +1,12 @@
 $(()=>{
    // bindButtons();
    search();
-    
+    if(responsiveVoice.voiceSupport())
+	console.log("Voice Support Active");
 });
 
 function search() {
-    daURL = "http://localhost:3000/getquestions";
+    daURL = "http://web.engr.oregonstate.edu/~englandt:5555/getquestions";
 //	$("#results-template").fadeOut(1000);
 		$("#results-template").html("");
 		$("#results-template").text("");
@@ -54,11 +55,13 @@ function showQuestion(results) {
 	    $('dt').each((index, record)=>{
 		console.log($(record).text() + ' vs ' + correct);
 		if($(record).text() == correct)
+		   // $(record).attr('id', 'audio');
 		    $(record).parent().data('foo', a.id);
 	    });
 	    $(".q, .btn-lg").on("click", (event)=>{
 		checkAnswer(event, a.id);
 	    });
+	responsiveVoice.speak(correct);
     } else {
 	template += "<div><h1>You've answered all available questions!</h1></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
@@ -72,7 +75,7 @@ function checkAnswer(event, id) {
    // var q = { 'id' : id,
 //	      'correct' : corr
 //	    }
-    daURL = "http://localhost:3000/submitanswer?id=" + id + "&correct=" + corr;
+    daURL = "http://web.engr.oregonstate.edu/~englandt:5555/submitanswer?id=" + id + "&correct=" + corr;
     console.log(daURL);
     $.ajax({
 	type: "GET",
