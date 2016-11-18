@@ -1,11 +1,17 @@
 var url = 'http://52.40.59.238:3000'
 
 $(()=>{
-   // bindButtons();
+  //bindButtons(); called later for voice issue
    search();
     if(responsiveVoice.voiceSupport())
 	console.log("Voice Support Active");
 });
+
+function bindButtons(answer) {
+	$('.glyphicon, .glyphicon-volume-up').on('click', ()=> {
+		responsiveVoice.speak(answer);
+	});
+}
 
 function search() {
     var daURL = url + "/getquestions";
@@ -63,7 +69,10 @@ function showQuestion(results) {
 	    $(".span2, .q").on("click", (event)=>{
 		checkAnswer(event, a.id);
 	    });
-	setTimeout(function() {responsiveVoice.speak(correct);}, 1800);
+	setTimeout(function() {
+		responsiveVoice.speak(correct);
+		bindButtons(correct);
+	}, 1800);
     } else {
 	template += "<div><h1>You've answered all available questions!</h1></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
