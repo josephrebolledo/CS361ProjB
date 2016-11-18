@@ -154,8 +154,9 @@ hr {
 	white-space: pre-line;
 }
 
-.results-template {
+#results-template {
 	text-align: center;
+	padding-top: 10px;
 }
 
 .search {
@@ -199,11 +200,22 @@ html {
 	overflow-y:scroll;
 }
 
+.container {
+	text-align: center;
+}
 
-
-.q {
-	width: 45%;
-	border-width: 4px;
+div.span2.q {
+	width: 40%;
+	text-align: center;
+	border-width: 2px;
     border-color: black;
+	border-style: solid;
 	border-radius: 6px;
+	display: inline-block;
+	margin: 5px;
+	font-size: 28px;
+}
+
+div dl {
+	padding-top: 5%;
 }
