@@ -82,6 +82,7 @@ function showQuestion(results) {
 function checkAnswer(event, id) {
     var corr = ($(event.target).parent().data('foo') > 0 ? 1 : 0);
     $(".span2, .q").off();
+	$(".glyphicon, .glyphicon-volume-up").off();
     showCorrect(corr);
    // var q = { 'id' : id,
 //	      'correct' : corr
