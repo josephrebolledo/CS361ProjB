@@ -137,6 +137,45 @@ app.get('/problems', (req, res)=> {
   res.render('questions');
 });
 
+app.get('/teacherDash',(req, res)=>{
+    function getStudentProgress(teacherId){
+        return new Promise(function(resolve,reject){
+        var conn = getConn();
+        var query_str =
+        "SELECT SUM(passed) as passed, COUNT(problem_id) as problem, first_name, last_name " +
+        "FROM studentProgress " + 
+        "WHERE (teacher = ?)" +
+        "GROUP BY student_id;"; 
+                
+        var query_var = [teacherId];
+
+        var query = conn.query(query_str,query_var,function(err,rows,fields){
+            if(err){
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+    var context = {};
+    //Get request data
+    //Use the id from get params until we have a session/cookie system set up
+    //to identify a teacher
+    context = processData(req);
+    //Make the query
+    context.studentProgress = [];
+    getStudentProgress(context.qParams[0].value).then(function(rows){
+    for(var r in rows){
+       context.studentProgress.push({'name':rows[r].first_name + ' ' + rows[r].last_name,
+                                    'passed':rows[r].passed,
+                                    'problems':rows[r].problem,
+                                    'percent':Math.round((rows[r].passed / rows[r].problem)*100)});
+    }
+	//catch any errors and render the page
+    }).catch((err) => setImmediate(() => {throw err;})).then(function(){res.render('teacherDash',context)});        
+});
+
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
