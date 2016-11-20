@@ -1,4 +1,5 @@
-var url = 'http://52.40.59.238:3000'
+var url = 'http://localhost:3000/'
+// var url = 'http://52.40.59.238:3000'
 
 $(()=>{
   //bindButtons(); called later for voice issue
