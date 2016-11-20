@@ -1,0 +1,42 @@
+
+<h1>Create User Account</h1>
+
+<script src="/js/userdb.js"></script>
+<br>
+
+<form method="POST">
+  <fieldset>
+    <legend>
+      <h3>Create a student or teacher account</h3></legend>
+    <br>
+    <br>
+    <label>Enter User Data </label>
+    <br>
+    <br>
+    <label>Check the box for student user </label>
+    <br>
+    <label> Unchecked for teacher user</label>
+    <input type="checkbox" name="user" id="userCheck">
+    <br>
+    <label>First Name </label>
+    <input type="text" name="first_name" id="fName" size="30" maxlength="1000">
+    <br>
+    <label>Last Name </label>
+    <input type="text" name="last_name" id="lName" size="30" maxlength="1000">
+    <br>
+    <label>Date of Birth (format = xx-xx-xxxx) </label>
+    <input type="date" name="DOB" id="dob" size="30" maxlength="1000">
+    <br>
+    <label>Email Address</label>
+    <input type="email" name="email" id="emailAdd" maxlength="1000">
+    <br>
+    <label>Telephone Number (format = xxx-xxx-xxxx)</label>
+    <input type="tel" name="phone" id="phoneNum" size="30" maxlength="1000">
+    <br>
+    <br>
+    <label> Click Button to Go </label>
+    <input type="submit" value="Submit" id="submitPost">
+    <br>
+    <br>
+  </fieldset>
+</form>
