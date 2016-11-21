@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS `user_progress`;
 DROP TABLE IF EXISTS `group`;
 DROP TABLE IF EXISTS `group_students`;
 DROP TABLE IF EXISTS `group_problems`;
+DROP VIEW IF EXISTS `studentProgress`;
 
 CREATE TABLE `user_role` (
   `user_role_id` tinyint(1) NOT NULL AUTO_INCREMENT,
@@ -89,6 +90,14 @@ CREATE TABLE `group_problems` (
    FOREIGN KEY (`problem_id`) REFERENCES `problem` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE VIEW `studentProgress` AS
+SELECT gs.student_id, up.passed, up.problem_id, u.first_name, u.last_name, g.teacher FROM user_progress up
+JOIN group_students gs
+ON up.user_id =  gs.student_id
+JOIN `user` u
+ON gs.student_id = u.id
+JOIN `group` g
+ON gs.group_id = g.id;
 
 
 INSERT INTO problem (`answer`, `incorrect_1`, `incorrect_2`, `incorrect_3`)
@@ -104,3 +113,11 @@ INSERT INTO `user` (`first_name`, `last_name`, `DOB`, `joinDate`,
 '7145555555', '1'),
 ('Teacher', 'Squirrel', '1900-01-01', '2016-11-17', 'teacher@email.com',
 '7145555555', '2');
+
+INSERT INTO `group` (`group_name`,`teacher`) VALUES
+('Test Group',2);
+
+INSERT INTO `group_students` (`group_id`,`student_id`) VALUES (1,1);
+
+INSERT INTO `user_progress` VALUES (1,1,1,'2016-11-19'), (1,2,0,'2016-11-19'), (1,3,1,'2016-11-20'),
+(1,4,1,'2016-11-20'), (1,5,1,'2016-11-20'), (1,6,0,'2016-11-20'), (1,7,1,'2016-11-22');

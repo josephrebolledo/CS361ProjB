@@ -1,0 +1,47 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <canvas id="chart" width="400" height="400"></canvas>
+    </div>
+    <div class="row">
+        <table class="table table-striped" id="studentProgTbl">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Correct</th>
+                    <th>Attempted</th>
+                    <th>% Correct</th>
+               </tr>
+           </thead>
+           <tbody>
+           {{#each studentProgress}}
+               <tr>
+                  <td>{{this.name}}</td>
+                  <td>{{this.passed}}</td>
+                  <td>{{this.problems}}</td>
+                  <td>{{this.percent}}</td>
+               </tr>
+           {{/each}}
+           </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    var ctx = document.getElementById("chart");
+    var barChart = new Chart(ctx,{
+        type: 'bar',
+        data: {
+            labels: [
+            {{#each studentProgress}}
+                "{{this.name}}",
+            {{/each}}],
+            datasets: [{
+                label: "% Correct",
+                data:[
+                    {{#each studentProgress}}
+                        {{this.percent}},
+                    {{/each}}]
+            }]
+         }
+});
+</script>

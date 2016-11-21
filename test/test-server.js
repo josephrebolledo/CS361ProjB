@@ -24,3 +24,13 @@ describe('get DB Conn', function() {
    });
 });
 
+//Ben Ford Tests
+describe('get teacher dashboard page',function(){
+    it('should return the teacher dashboard page', function(done){
+        chai.request(server.app)
+            .get('/teacherDash')
+            .end(function(err,res){
+                expect(200,done());
+            });
+   });
+});
