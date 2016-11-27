@@ -43,7 +43,8 @@ function getConn() {
     var mysql = require('mysql');
     var hostname = 'localhost';
     var username = 'root';
-    var pw = 'shpongle1';
+    var pw = 'root';
+    var port = '**'
     var db = 'cs361';
 	//var hostname = 'oniddb.cws.oregonstate.edu';
     //var username = 'englandt-db';
@@ -53,6 +54,7 @@ function getConn() {
 	host : hostname,
 	user : username,
 	password : pw,
+    port: port,
 	database : db
     });
     console.log("attempting to connect to: " + db);
@@ -109,7 +111,8 @@ app.get('/getquestions',function(req,res){
 
     conn.query({
 	sql: 'SELECT * FROM `problem` WHERE `id` = (SELECT MIN(`id`) FROM ' +
-	    '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1))',
+	   //'`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1))',
+       '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1 AND `passed`=1))',
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {

@@ -15,7 +15,8 @@ function bindButtons(answer) {
 }
 
 function search() {
-    var daURL = url + "/getquestions";
+    var daURL = url + "getquestions";
+    //var daURL = url + "/getquestions";
 //	$("#results-template").fadeOut(1000);
 		$("#results-template").html("");
 		$("#results-template").text("");
@@ -75,7 +76,7 @@ function showQuestion(results) {
 		bindButtons(correct);
 	}, 1800);
     } else {
-	template += "<div><h1>You've answered all available questions!</h1></div>";
+	template += "<div><h1>You've answered all available questions for your selected difficulty level! You have earned one coupon!</h1></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
     }
 }
@@ -88,7 +89,8 @@ function checkAnswer(event, id) {
    // var q = { 'id' : id,
 //	      'correct' : corr
 //	    }
-    var daURL = url + "/submitanswer?id=" + id + "&correct=" + corr;
+    var daURL = url + "submitanswer?id=" + id + "&correct=" + corr;
+    //var daURL = url + "/submitanswer?id=" + id + "&correct=" + corr;
     console.log(daURL);
     $.ajax({
 	type: "GET",
