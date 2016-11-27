@@ -261,6 +261,84 @@ app.get('/teacherDash',(req, res)=>{
     }).catch((err) => setImmediate(() => {throw err;})).then(function(){res.render('teacherDash',context)});        
 });
 
+
+
+//Add a new user account to the database
+app.post('/account', function(req, res, next) {
+    var context = {};
+    //console.log(req.body);
+    
+    //Check for existing user
+    var result = 0;
+    if([req.body.first_name] == ""){
+        res.send('Please enter the first name');
+    }
+    else if([req.body.last_name] == ""){
+        res.send('Please enter the last name');  
+    }
+    else if([req.body.DOB] == ""){
+        res.send('Please enter the date of birth');
+    }
+    else{
+        var conn = getConn();
+        conn.query({
+            sql: "SELECT * FROM `user` WHERE `first_name`='" + [req.body.first_name] + "' AND `last_name` ='" + [req.body.last_name] + "' AND `DOB`='" + [req.body.DOB] + "'",
+            timeout: 40000 
+        }, (error, results, fields)=> {
+                if(error){
+                    console.log(error);
+                    res.send('{}');
+                }
+                else {
+                    console.log("Connected to DB");
+                    //console.log(results);
+                    if(results != ""){
+                        result = 1;
+                    }
+                    else{
+                        result = 0;
+                    }
+                    var uid; 
+                    if([req.body.user] == 'on'){
+                        uid = 1;
+                    }
+                    else{
+                        uid=2;
+                    }
+                    if(result == 1){
+                        res.send('User already exists')
+                    }
+                    else{
+                        var string = "INSERT INTO user (`first_name`, `last_name`, `DOB`, `joinDate`, `email`, `phone`, `user_role_id` ) VALUES ('"
+                                        + [req.body.first_name] + "','" + [req.body.last_name] + "','" + [req.body.DOB] 
+                                        + "', NOW(),'" + [req.body.email] + "','" + [req.body.phone] + "','" + uid + "');";
+                        //console.log(string);      
+                        conn.query({
+                            sql: string,
+                            timeout: 40000
+                        }, (error, results, fields)=> {
+                                if(error){
+                                    console.log(error);
+                                    res.send('Error connecting to the database');
+                                }
+                                else {
+                                    console.log("Connected to DB");
+                                    res.send('User successfully created');
+                                }
+                            });
+                        conn.end();
+                    }
+                } 
+            });
+    }
+});
+
+//Render user account page
+app.get('/account', function(req, res, next) {
+    res.render('account');
+});
+
+
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
