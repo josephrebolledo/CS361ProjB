@@ -338,6 +338,10 @@ app.get('/account', function(req, res, next) {
     res.render('account');
 });
 
+//Render user account page
+app.get('/about', function(req, res, next) {
+    res.render('about');
+});
 
 app.use(function (req, res, next) {
 
