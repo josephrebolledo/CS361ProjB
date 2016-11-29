@@ -35,6 +35,16 @@ describe('get teacher dashboard page',function(){
    });
 });
 
+describe('get teacher dashboard page',function(){
+    it('should return the about page', function(done){
+        chai.request(server.app)
+            .get('/about')
+            .end(function(err,res){
+                expect(200,done());
+            });
+    });
+});
+
 
 //Test if the user account page is rendered
 describe('GET Account', function() {
