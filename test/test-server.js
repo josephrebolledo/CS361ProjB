@@ -35,7 +35,7 @@ describe('get teacher dashboard page',function(){
    });
 });
 
-describe('get teacher dashboard page',function(){
+describe('get about page',function(){
     it('should return the about page', function(done){
         chai.request(server.app)
             .get('/about')
@@ -88,3 +88,15 @@ describe('POST Account', function() {
         });
     });
 });
+
+//Test add problem to database
+describe('Add problem to database', function(){
+  it('Should add a problem to the database', function(done){
+    chai.request(server.app)
+      .get('/add_question_do?answer=a&incorrect_1=to&incorrect_2=you&incorrect3=said')
+      .end(function(err,res){
+        expect(200,done());
+      });
+  });
+});
+
