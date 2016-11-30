@@ -44,7 +44,7 @@ function getConn() {
     var hostname = 'localhost';
     var username = 'root';
     var pw = 'root';
-    var port = '**'
+    var port = '8889'
     var db = 'cs361';
 	//var hostname = 'oniddb.cws.oregonstate.edu';
     //var username = 'englandt-db';
