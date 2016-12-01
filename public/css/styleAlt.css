@@ -10,9 +10,6 @@
 }
 */
 
-img {
-	width: 100%;
-}
 
 .intro-header {
 	top: 0;
@@ -218,4 +215,30 @@ div.span2.q {
 
 div dl {
 	padding-top: 5%;
+}
+
+#large  {
+	width: auto;
+	max-height: 500px;
+}
+
+canvas {
+	display: inline-block;
+}
+
+.left {
+	text-align: left;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* Bottom of button */
+}
+
+.dropdown {
+	display: inline-block;
 }

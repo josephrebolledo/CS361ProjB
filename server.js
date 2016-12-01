@@ -78,31 +78,37 @@ app.post('/', (req,res)=>{
 });
 
 
-
 app.get('/add_question', (req, res)=> {
-    var conn = getConn();
     res.render('add_question');
 });
 
 
 app.get('/problems', (req, res)=> {
-  res.render('questions');
+    var conn = getConn();
+	conn.query({
+	sql: 'SELECT id, first_name, last_name FROM user WHERE user_role_id = 1',
+	timeout: 40000 //40s
+	//values: ['value']
+    }, (error, results, fields)=> {
+		if(error) {
+			console.log(error);
+			res.status(500);
+			res.render('500');
+		} else {
+			var context = {};
+			context.students = [];
+			for(var r in results) {
+				context.students.push({
+					'name': results[r].first_name + ' ' + results[r].last_name,
+					'id': results[r].id
+				});
+			}
+			res.render('questions', context);
+		}
+	});
+	conn.end();
 });
 
-app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', false);
-    // Pass to next layer of middleware
-    next();
-});
 
 app.get('/getquestions',function(req,res){
     var conn = getConn();
@@ -111,8 +117,7 @@ app.get('/getquestions',function(req,res){
 
     conn.query({
 	sql: 'SELECT * FROM `problem` WHERE `id` = (SELECT MIN(`id`) FROM ' +
-	   //'`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1))',
-       '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`=1 AND `passed`=1))',
+       '`problem` WHERE `id` NOT IN (SELECT `problem_id` FROM `user_progress` WHERE `user_id`='+ id +' AND `passed`=1))',
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
@@ -191,8 +196,9 @@ app.get('/submitanswer', (req, res)=> {
     var data = processData(req);
     var id =  data.qParams[0].value;
     var correct = data.qParams[1].value;
+	var user = data.qParams[2].value;
     console.log(data);
-    var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (1,' + id + ', ' + correct + ', NOW())' +
+    var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (' + user + ', ' + id + ', ' + correct + ', NOW())' +
 	    ' ON DUPLICATE KEY UPDATE `passed`='+ correct + ', `attempt_date`=NOW()';
     console.log(string);
     var conn = getConn();
@@ -216,10 +222,6 @@ app.get('/submitanswer', (req, res)=> {
 
 
     
-});
-
-app.get('/problems', (req, res)=> {
-  res.render('questions');
 });
 
 app.get('/teacherDash',(req, res)=>{

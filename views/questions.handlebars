@@ -1,9 +1,25 @@
+<div class="col-sm-12 container center" id="studentSelection">
+	<div class="row">
+	<h2> Please select your name from the list below. If you have not registered yet, new students 
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Student List
+			<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				{{#each students}}
+					<li class="students" data-poo="{{this.id}}"><a href="#">{{this.name}}</a></li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</div>
 <div class="col-sm-12 container hidden centerMe">
-    <div class="row">
+	<div class="row">
     	 <h2>Which of the following words was spoken?   <span id="repeat" class="glyphicon glyphicon-volume-up"></span></h2>
-	  </div>
-     <div class="row" id="results-template">
-     </div>
+	</div>
+    
+	<div class="row" id="results-template">
+    </div>
 </div>
 <script src="/js/questions.js"></script>
 <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
