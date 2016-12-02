@@ -1,6 +1,5 @@
 var url = "http://localhost:3000";   
 
-
 var queryURL = url + "/query_word";
 var submitURL = url + "/add_question_do";
 var bakSubmitURL = submitURL; 
