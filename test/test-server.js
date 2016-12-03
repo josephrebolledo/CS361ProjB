@@ -183,11 +183,11 @@ describe('Get Response', function() {
         timeout: 40000 
         }, (error, results, fields)=> {
               if(error){
-                console.log(error);
+                //console.log(error);
                 res.send('{}');
               }
               else {
-                console.log("Connected to DB");
+                //console.log("Connected to DB");
               } 
             });
       

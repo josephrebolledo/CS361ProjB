@@ -89,7 +89,10 @@ function showQuestion(results) {
 		bindVoiceButton(correct);
 	}, 1500);
     } else {
-	template += "<div><h1>You've answered all available questions!</h1></div>";
+	var star = '<span class="glyphicon glyphicon-star-empty"></span>'
+	template += "<div><h1>Congrats! You've answered all available questions!</h1></br>"+
+			"<h2>You've earned 3 stars!!</br>" +
+			star + star + star + "</h2></div>";
 	$('#results-template').append(template).parent().removeClass("hidden").fadeIn(500);
     }
 }
