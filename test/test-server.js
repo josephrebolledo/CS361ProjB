@@ -174,6 +174,40 @@ describe('POST Account', function() {
     });
 });
 
+//Test if the form result page is getting response
+describe('Get Response', function() {
+    it('Should get response from the account page', function(done) {
+      var conn = server.getConn();
+      conn.query({
+        sql: "DELETE FROM `user` WHERE `first_name` = 'Test' AND `last_name` = 'Test'",
+        timeout: 40000 
+        }, (error, results, fields)=> {
+              if(error){
+                console.log(error);
+                res.send('{}');
+              }
+              else {
+                console.log("Connected to DB");
+              } 
+            });
+      
+      conn.end();
+      chai.request(server.app)
+        .post('/account')
+        .send({'first_name': 'Test', 'last_name': 'Test', 'DOB': '2016-01-01', 
+        'joinDate': '2016-12-12', 'email': 'test@test', 'phone': '111-111-1111', 
+        'user_role_id':'1'})
+        chai.request(server.app)
+        .get('/account')
+        .end(function(err, res){
+        //console.log(res);
+            res.should.have.status(200);
+            res.headers['content-type'].should.equal('text/html; charset=utf-8');
+            done();      
+        });
+    });
+});
+
 //Test add problem to database
 describe('Add problem to database', function(){
   it('Should add a problem to the database', function(done){
