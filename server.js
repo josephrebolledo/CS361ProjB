@@ -39,7 +39,6 @@ function processData(req) {
 }
 
 function getConn() {
-
     var mysql = require('mysql');
     var hostname = 'localhost';
     var username = 'root';
@@ -53,17 +52,16 @@ function getConn() {
     port: port,
 	database : db
     });
-    console.log("attempting to connect to: " + db);
+    //console.log("attempting to connect to: " + db);
     try {
-	conn.connect();
+		conn.connect();
     } catch(err) {
-	console.log(err);
-	return null;
+		//console.log(err);
+		return null;
     }
-   // conn.end();
+	conn.end();
     return conn;
 }
-
 
 app.get('/home',function(req,res){
   res.render('home');
@@ -73,11 +71,9 @@ app.post('/', (req,res)=>{
   res.render('home');
 });
 
-
 app.get('/add_question', (req, res)=> {
     res.render('add_question');
 });
-
 
 app.get('/problems', (req, res)=> {
     var conn = getConn();
@@ -87,7 +83,7 @@ app.get('/problems', (req, res)=> {
 	//values: ['value']
     }, (error, results, fields)=> {
 		if(error) {
-			console.log(error);
+			//console.log(error);
 			res.status(500);
 			res.render('500');
 		} else {
@@ -105,7 +101,6 @@ app.get('/problems', (req, res)=> {
 	conn.end();
 });
 
-
 app.get('/getquestions',function(req,res){
     var data = processData(req);
 	var id =  data.qParams[0].value;
@@ -120,52 +115,48 @@ app.get('/getquestions',function(req,res){
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
-	if(error){
-	    console.log(error);
-	    res.send('{}');
-	}
-	else {
-	    console.log("Connected to DB");
-	    rs += JSON.stringify(results);
-	    rs += '}';
-	    console.log(rs);
-	    res.send(rs);
-	}
-	
+		if(error){
+			//console.log(error);
+			res.send('{}');
+		}
+		else {
+			//console.log("Connected to DB");
+			rs += JSON.stringify(results);
+			rs += '}';
+			//console.log(rs);
+			res.send(rs);
+		}
     });
     conn.end();
 });
 
 app.get('/add_question_do', function(req, res){
     var data = processData(req);
-    console.log(data);
+    //console.log(data);
     var correctAnswer =  data.qParams[0].value;
     var incorrect1 = data.qParams[1].value;
     var incorrect2 = data.qParams[2].value;
     var incorrect3 = data.qParams[3].value;
-    console.log(data);
+    //console.log(data);
     //var userQuery = 'INSERT INTO `problem` (`answer`, `incorrect_1`, `incorrect_2`, `incorrect_3`) VALUES ( ' + correctAnswer + ', ' + incorrect1 + ', ' + incorrect2 + ', ' + incorrect3 + ' );';
     var userQuery = "INSERT INTO `problem` (`answer`, `incorrect_1`, `incorrect_2`, `incorrect_3`) VALUES ( '" + correctAnswer + "', '" + incorrect1 + "', '" + incorrect2 + "', '" + incorrect3 + "' );" 
-    console.log(userQuery);
+    //console.log(userQuery);
     var conn = getConn();
   
     conn.query({
 	sql: userQuery, 
 	timeout: 40000 //40s
     }, (error, results, fields)=> {
-	if(error){
-	    console.log(error);
-	    res.send('Error adding question');
-	}
-	else {
-	    res.send('Successfully added: ' + correctAnswer + ' ' + incorrect1 + ' ' + incorrect2 + ' ' + incorrect3);
-	    //res.send('{}');
-	}
-	
-    });
-    conn.end();
-    
-          
+		if(error){
+			//console.log(error);
+			res.send('Error adding question');
+		}
+		else {
+			res.send('Successfully added: ' + correctAnswer + ' ' + incorrect1 + ' ' + incorrect2 + ' ' + incorrect3);
+			//res.send('{}');
+		}
+	});
+    conn.end();        
 });
 
 app.get('/query_word',function(req,res){
@@ -175,18 +166,17 @@ app.get('/query_word',function(req,res){
 	sql: 'SELECT word FROM `word`',
 	timeout: 40000 //40s
     }, (error, results, fields)=> {
-	if(error){
-	    console.log(error);
-	    res.send('{}');
-	}
-	else {
-	    console.log("Connected to DB");
-	    rs = JSON.stringify(results);
-	    //rs += '}';
-	    //console.log(rs);
-	    res.send(rs);
-	}
-	
+		if(error){
+			//console.log(error);
+			res.send('{}');
+		}
+		else {
+			//console.log("Connected to DB");
+			rs = JSON.stringify(results);
+			//rs += '}';
+			////console.log(rs);
+			res.send(rs);
+		}
     });
     conn.end();
 });
@@ -196,10 +186,10 @@ app.get('/submitanswer', (req, res)=> {
     var id =  data.qParams[0].value;
     var correct = data.qParams[1].value;
 	var user = data.qParams[2].value;
-    console.log(data);
+    //console.log(data);
     var string = 'INSERT INTO `user_progress` (`user_id`, `problem_id`, `passed`, `attempt_date`) VALUES (' + user + ', ' + id + ', ' + correct + ', NOW())' +
 	    ' ON DUPLICATE KEY UPDATE `passed`='+ correct + ', `attempt_date`=NOW()';
-    console.log(string);
+    //console.log(string);
     var conn = getConn();
   
     conn.query({
@@ -207,15 +197,14 @@ app.get('/submitanswer', (req, res)=> {
 	timeout: 40000 //40s
 	//values: ['value']
     }, (error, results, fields)=> {
-	if(error){
-	    console.log(error);
-	    res.send('{}');
-	}
-	else {
-	    console.log("Connected to DB");
-	    res.send('{}');
-	}
-	
+		if(error){
+			//console.log(error);
+			res.send('{}');
+		}
+		else {
+			//console.log("Connected to DB");
+			res.send('{}');
+		}
     });
     conn.end();    
 });
@@ -249,33 +238,41 @@ app.get('/teacherDash',(req, res)=>{
     //Make the query
     context.studentProgress = [];
     getStudentProgress(context.qParams[0].value).then(function(rows){
-    for(var r in rows){
-       context.studentProgress.push({'name':rows[r].first_name + ' ' + rows[r].last_name,
-                                    'passed':rows[r].passed,
-                                    'problems':rows[r].problem,
-                                    'percent':Math.round((rows[r].passed / rows[r].problem)*100)});
-    }
+		for(var r in rows){
+		   context.studentProgress.push({'name':rows[r].first_name + ' ' + rows[r].last_name,
+										'passed':rows[r].passed,
+										'problems':rows[r].problem,
+										'percent':Math.round((rows[r].passed / rows[r].problem)*100)});
+		}
 	//catch any errors and render the page
     }).catch((err) => setImmediate(() => {throw err;})).then(function(){res.render('teacherDash',context)});        
 });
 
-
-
 //Add a new user account to the database
+//Generate a form response page after submission 
 app.post('/account', function(req, res, next) {
     var context = {};
-    //console.log(req.body);
-    
+    ////console.log(req.body);
+    var  postMessage = 'Unable to Create Account Right Now!';
+
+    context.res = postMessage;
+
     //Check for existing user
     var result = 0;
     if([req.body.first_name] == ""){
-        res.send('Please enter the first name');
+        postMessage = 'Please Enter the First Name';
+        context.res = postMessage;
+        res.render('userform', context);
     }
     else if([req.body.last_name] == ""){
-        res.send('Please enter the last name');  
+        postMessage = 'Please Enter the Last Name';
+        context.res = postMessage; 
+        res.render('userform', context);
     }
     else if([req.body.DOB] == ""){
-        res.send('Please enter the date of birth');
+        postMessage = 'Please Enter the Date of Birth';
+        context.res = postMessage;
+        res.render('userform', context);
     }
     else{
         var conn = getConn();
@@ -284,12 +281,14 @@ app.post('/account', function(req, res, next) {
             timeout: 40000 
         }, (error, results, fields)=> {
                 if(error){
-                    console.log(error);
-                    res.send('{}');
+                    //console.log(error);
+                    postMessage = 'Error Connecting to the Database';
+                    context.res = postMessage;
+                    res.render('userform', context);
                 }
                 else {
-                    console.log("Connected to DB");
-                    //console.log(results);
+                    //console.log("Connected to DB");
+                    ////console.log(results);
                     if(results != ""){
                         result = 1;
                     }
@@ -298,30 +297,36 @@ app.post('/account', function(req, res, next) {
                     }
                     var uid; 
                     if([req.body.user] == 'on'){
-                        uid = 1;
+                        uid = 2;
                     }
                     else{
-                        uid=2;
+                        uid=1;
                     }
                     if(result == 1){
-                        res.send('User already exists')
+                    	postMessage = 'User already exists';
+                    	context.res = postMessage;
+                        res.render('userform', context);
                     }
                     else{
                         var string = "INSERT INTO user (`first_name`, `last_name`, `DOB`, `joinDate`, `email`, `phone`, `user_role_id` ) VALUES ('"
                                         + [req.body.first_name] + "','" + [req.body.last_name] + "','" + [req.body.DOB] 
                                         + "', NOW(),'" + [req.body.email] + "','" + [req.body.phone] + "','" + uid + "');";
-                        //console.log(string);      
+                        ////console.log(string);      
                         conn.query({
                             sql: string,
                             timeout: 40000
                         }, (error, results, fields)=> {
                                 if(error){
-                                    console.log(error);
-                                    res.send('Error connecting to the database');
+                                    //console.log(error);
+                                    postMessage = 'Error Connecting to the Database';
+                                    context.res = postMessage;
+                                    res.render('userform', context);
                                 }
                                 else {
-                                    console.log("Connected to DB");
-                                    res.send('User successfully created');
+                                    //console.log("Connected to DB");
+                                    postMessage = 'User successfully created';
+                                    context.res = postMessage;
+                                    res.render('userform', context);
                                 }
                             });
                         conn.end();
@@ -342,7 +347,6 @@ app.get('/about', function(req, res, next) {
 });
 
 app.use(function (req, res, next) {
-
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://52.40.59.238');
     // Request methods you wish to allow
@@ -369,7 +373,7 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+  //console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
 
 exports.app = app;

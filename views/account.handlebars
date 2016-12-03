@@ -3,16 +3,17 @@
 <form method="POST">
   <fieldset>
     <legend>
-      <h3>Create a student or teacher account</h3></legend>
+      <h2>Create a Student or Teacher Account</h2></legend>
     <br>
     <br>
-    <label>Enter User Data </label>
+    <label><h3>Enter User Data</h3></label>
     <br>
     <br>
-    <label>Check the box for student user </label>
+    <label>Default: Student Account </label>
     <br>
-    <label> Unchecked for teacher user</label>
+    <label>Teacher Account: </label>
     <input type="checkbox" name="user" id="userCheck">
+   <label>(Check Box) </label>
     <br>
     <label>First Name </label>
     <input type="text" name="first_name" id="fName" size="30" maxlength="1000">
@@ -20,18 +21,18 @@
     <label>Last Name </label>
     <input type="text" name="last_name" id="lName" size="30" maxlength="1000">
     <br>
-    <label>Date of Birth (format = xx-xx-xxxx) </label>
+    <label>Date of Birth (format = mmddyyyy) </label>
     <input type="date" name="DOB" id="dob" size="30" maxlength="1000">
     <br>
     <label>Email Address</label>
     <input type="email" name="email" id="emailAdd" maxlength="1000">
     <br>
-    <label>Telephone Number (format = xxx-xxx-xxxx)</label>
+    <label>Telephone Number (format = 1002003000)</label>
     <input type="tel" name="phone" id="phoneNum" size="30" maxlength="1000">
     <br>
     <br>
-    <label> Click Button to Go </label>
-    <input type="submit" value="Submit" id="submitPost">
+    <label> Create User </label>
+    <input type="submit" value="Submit Form" id="submitPost">
     <br>
     <br>
   </fieldset>
