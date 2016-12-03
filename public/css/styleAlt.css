@@ -242,3 +242,7 @@ canvas {
 .dropdown {
 	display: inline-block;
 }
+
+th {
+	padding: 6px;
+}

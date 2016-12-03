@@ -3,13 +3,56 @@ var expect = chai.expect;
 var should = chai.should();
 var chaiHTTP = require('chai-http');
 var server = require('../server.js');
+var assert = require('assert');
+//could not get the following to recognize jQuery $ so I'm having to manually add 
+//shuffle function
+//require('jsdom-global')(); // This is necessary for testing jQuery in Mocha
+//var $ = require('../public/js/jquery-3.1.0.min.js')(window);
+//var questions = require('../public/js/questions.js');
 
 chai.use(chaiHTTP);
+
+//Tanner Tests
+describe('shuffle function tester', function(){
+	it('should return a shuffled array', function(done){
+		var testArray = [1, 2, 3, 4, 5];
+		var copy = testArray.slice(0);
+		var res = shuffle(copy);
+		assert.notEqual(res, testArray);
+		assert.equal(testArray.length, res.length);
+		done();
+	});
+});
+
+
+function shuffle(a) {
+    var currentIndex = a.length;
+    var tempVal, randomIndex;
+
+    while(0 != currentIndex) {
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -=1;
+		tempVal = a[currentIndex];
+		a[currentIndex] = a[randomIndex];
+		a[randomIndex] = tempVal;
+    }
+    return a;
+}
 
 describe('GET home', function() {
     it('should render home page', function(done) {
 	chai.request(server.app)
 	    .get('/home')
+	    .end(function(err, res) {
+		    expect(200, done());
+	    });
+    });
+});
+
+describe('GET second home', function() {
+    it('should render home page', function(done) {
+	chai.request(server.app)
+	    .get('/')
 	    .end(function(err, res) {
 		    expect(200, done());
 	    });
@@ -22,6 +65,48 @@ describe('get DB Conn', function() {
 	   .should.be.an('object');
        done();
    });
+});
+
+describe('GET parser verification', function() {
+   it('should return array of GET objects', function(done) {
+       server.processData({'method': 'GET', 
+							'query': {'test' : 'function', 'test2' : 'function2'}
+	   }).should.be.an('object');
+       done();
+   });
+});
+
+describe('get problems page', function() {
+    it('Should render problems page', function(done) {
+      chai.request(server.app)
+        .get('/problems')
+        .end(function(err, res) {
+          expect(200, done());
+        });
+    });
+});
+
+describe('get next question based on student id', function(){
+  it('should retrieve and return next question from DB', function(done){
+    chai.request(server.app)
+      .get('/getquestions?poo=2')
+      .end(function(err,res){
+        expect(err).to.be.null;
+		expect(res).to.be.an('object');
+      });
+	  done();
+  });
+});
+
+describe('student answer submission', function(){
+  it('should update DB with student answer', function(done){
+    chai.request(server.app)
+      .get('/submitanswer?id=1&correct=1&user=1')
+      .end(function(err,res){
+        expect(err).to.be.null;
+		expect(res).to.be.an('object', done());
+      });
+  });
 });
 
 //Ben Ford Tests
@@ -66,11 +151,11 @@ describe('POST Account', function() {
         timeout: 40000 
         }, (error, results, fields)=> {
               if(error){
-                console.log(error);
+                //console.log(error);
                 res.send('{}');
               }
               else {
-                console.log("Connected to DB");
+                //console.log("Connected to DB");
               } 
             });
       

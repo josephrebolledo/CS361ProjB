@@ -124,3 +124,5 @@ function showCorrect(corr) {
     var template = '<div><h1>' + display + '</h1></div';
     $('#results-template').append(template).fadeIn(500);
 }
+
+exports.shuffle = shuffle;

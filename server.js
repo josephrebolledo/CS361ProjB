@@ -46,10 +46,6 @@ function getConn() {
     var pw = 'root';
     var port = '8889'
     var db = 'cs361';
-	//var hostname = 'oniddb.cws.oregonstate.edu';
-    //var username = 'englandt-db';
-    //var pw = '***';
-    //var db = 'englandt-db';
     var conn = mysql.createConnection({
 	host : hostname,
 	user : username,
@@ -111,7 +107,10 @@ app.get('/problems', (req, res)=> {
 
 
 app.get('/getquestions',function(req,res){
-    var conn = getConn();
+    var data = processData(req);
+	var id =  data.qParams[0].value;
+	
+	var conn = getConn();
     var rs = '{"data" : ';
    // var context = {};
 
@@ -218,10 +217,7 @@ app.get('/submitanswer', (req, res)=> {
 	}
 	
     });
-    conn.end();
-
-
-    
+    conn.end();    
 });
 
 app.get('/teacherDash',(req, res)=>{
